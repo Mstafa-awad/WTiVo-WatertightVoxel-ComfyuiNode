@@ -1,0 +1,48 @@
+WTiVo: WatertightVoxel Optimizer
+Copyright (c) 2026 Mstafa-awad
+
+WTiVo is an independent project. Upstream projects listed below are not
+responsible for WTiVo and do not endorse it.
+
+MODIFIED APACHE-2.0 LINEAGE
+===========================
+
+CelloCut: Constructive Watertight Remeshing via Tetrahedral Cell Cuts
+Official repository: https://github.com/rangeryx-66/CelloCut
+Authors: Xuan Yang, Yuhang Zeng, Dinglong Fang, Guochuan Tang, Jiaju Jiang,
+Ben Li, Wei Zhou, Xiao-Xiao Long, Cheng Lin.
+License: Apache License 2.0.
+
+WTiVo preserves/derives the tetrahedral cell-cut formulation, fill-aware graph
+energy semantics, topology/face ordering behavior, and portions of the native
+execution structure. Modified WTiVo files are prominently marked. WTiVo changes
+the proxy representation, graph execution, memory lifecycle, sparse field path,
+and final contour topology repair.
+
+FaithC: Faithful Contouring
+Official repository: https://github.com/Luo-Yihao/FaithC
+Copyright notice in upstream license: Copyright 2024 Yihao Luo
+License: Apache License 2.0.
+
+WTiVo's contour path uses FaithC/FCT/QEF-inspired anchor/normal/quad decoding
+and manifold-contouring concepts. The WTiVo implementation is modified for the
+sparse OpenVDB + tetra-cell-cut production pipeline.
+
+OTHER DIRECT DEPENDENCIES
+=========================
+
+OpenVDB 12.x — Apache-2.0. WTiVo's benchmarked build used OpenVDB 12.0.1.
+CGAL 3D Triangulations — GPL v3+ under the open-source CGAL license; a separate
+commercial license is available from CGAL/GeometryFactory.
+oneTBB — Apache-2.0.
+Eigen — primarily MPL-2.0; WTiVo compiles with EIGEN_MPL2_ONLY.
+pybind11 — BSD 3-Clause.
+PyTorch — main project BSD 3-Clause; installed wheels include additional
+third-party notices/licenses supplied by PyTorch.
+NumPy — main project BSD 3-Clause; installed wheels may include additional
+third-party notices/licenses supplied by NumPy.
+Trimesh — MIT.
+vcpkg — MIT; ports retain their upstream licenses.
+NVIDIA CUDA Toolkit/driver — external proprietary NVIDIA software; not bundled.
+
+See LICENSING.md, THIRD_PARTY_NOTICES.md and LICENSES/.

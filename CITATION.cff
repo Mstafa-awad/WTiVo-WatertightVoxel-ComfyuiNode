@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+title: "WTiVo: WatertightVoxel Optimizer"
+message: "If you use WTiVo, please cite WTiVo and the upstream CelloCut/FaithC papers where applicable."
+type: software
+authors:
+  - family-names: Awad
+    given-names: Mostafa
+version: 1.1.1
+date-released: 2026-08-29
+url: "https://github.com/Mstafa-awad/WTiVo-WatertightVoxel-Optimizer"
+repository-code: "https://github.com/Mstafa-awad/WTiVo-WatertightVoxel-Optimizer"
+license: GPL-3.0-or-later
+references:
+  - type: article
+    title: "CelloCut: Constructive Watertight Remeshing via Tetrahedral Cell Cuts"
+    authors:
+      - family-names: Yang
+        given-names: Xuan
+      - family-names: Zeng
+        given-names: Yuhang
+      - family-names: Fang
+        given-names: Dinglong
+    year: 2026
+    url: "https://arxiv.org/abs/2605.17853"
+  - type: conference-paper
+    title: "Faithful Contouring: Near-Lossless 3D Voxel Representation Free from Iso-surface"
+    authors:
+      - family-names: Luo
+        given-names: Yihao
+    year: 2026
+    url: "https://github.com/Luo-Yihao/FaithC"
