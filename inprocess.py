@@ -95,6 +95,7 @@ def process_arrays(
         # Run the subprocess, streaming output to the ComfyUI console in real-time
         process = subprocess.Popen(
             cmd,
+            env={**os.environ, "WTIVO_SUBPROCESS": "1"},
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,

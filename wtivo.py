@@ -11,13 +11,36 @@ from __future__ import annotations
 
 import argparse
 import ctypes
-import gc
 import os
+import gc
 import sys
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
+
+# Mirror standalone CLI output to wtivo_execution.log.
+# Skipped when:
+#  - imported as a module (ComfyUI in-process),
+#  - running as our subprocess worker (WTIVO_SUBPROCESS),
+#  - attached to an interactive console (dup2 onto a console handle
+#    causes OSError 9 / "lost sys.stderr" on Windows).
+if (
+    os.name == "nt"
+    and __name__ == "__main__"
+    and not os.environ.get("WTIVO_SUBPROCESS")
+    and not sys.stdout.isatty()
+):
+    try:
+        _log_path = ROOT / "wtivo_execution.log"
+        _log_file = open(_log_path, "w", encoding="utf-8", buffering=1)
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os.dup2(_log_file.fileno(), 1)
+        os.dup2(_log_file.fileno(), 2)
+    except Exception as e:
+        print(f"[WTiVo-Fix] Stream redirection warning: {e}", flush=True)
+        
 for _p in (
     ROOT,
     ROOT / "build",
@@ -25,24 +48,20 @@ for _p in (
     if _p.exists() and str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-# Windows DLL lookup for the local WTiVo venv, vcpkg runtime, and CUDA.
+# Windows DLL lookup.
+# WTiVo ships its own third-party native runtime DLLs in build/.
+# PyTorch/CUDA DLLs come from the user's ComfyUI installation.
+# No dependency on any CelloCut/Conda environment.
 _DLL_HANDLES = []
 if os.name == "nt" and hasattr(os, "add_dll_directory"):
     py = Path(sys.executable).resolve().parent
+    torch_lib = py / "Lib" / "site-packages" / "torch" / "lib"
     candidates = [
+        ROOT / "build",
         py,
-        py / "Lib" / "site-packages" / "torch" / "lib",
+        torch_lib,
         ROOT / ".deps" / "vcpkg" / "installed" / "x64-windows" / "bin",
-        # No-build compatibility backend: these are the same DLL search locations
-        # used by the working CelloCut node that supplied the prebuilt modules.
-        Path.home() / ".conda" / "envs" / "CelloCut" / "Library" / "bin",
-        Path.home() / "miniconda3" / "envs" / "CelloCut" / "Library" / "bin",
-        Path(r"C:\ProgramData\miniconda3\envs\CelloCut\Library\bin"),
-        Path(r"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\bin"),
     ]
-    cellocut_prefix = os.environ.get("CELLOCUT_CONDA_PREFIX")
-    if cellocut_prefix:
-        candidates.append(Path(cellocut_prefix) / "Library" / "bin")
     for key in ("CUDA_PATH", "CUDA_HOME"):
         value = os.environ.get(key)
         if value:
