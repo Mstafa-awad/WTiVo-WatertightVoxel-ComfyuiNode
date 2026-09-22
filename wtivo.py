@@ -641,6 +641,40 @@ def direct_thick_points(
     return vertices, bbox_min, bbox_max, sparse
 
 
+def trimesh_closed_audit(vertices: np.ndarray, faces: np.ndarray, tag: str):
+    """
+    Secondary audit using Trimesh.
+
+    This is stricter than the native edge-degree check and will usually catch
+    vertex-non-manifold cases / disconnected shell cases that the edge-only
+    native check can miss.
+    """
+    try:
+        m = trimesh.Trimesh(vertices=vertices, faces=faces, process=False)
+
+        closed = bool(getattr(m, "is_watertight", False))
+
+        try:
+            bodies = int(getattr(m, "body_count", 1))
+        except Exception:
+            try:
+                bodies = len(m.split())
+            except Exception:
+                bodies = 1
+
+        ok = closed and bodies == 1
+
+        print(
+            f"[{tag}] trimesh_closed={closed} | bodies={bodies} | use={ok}",
+            flush=True,
+        )
+
+        return ok
+
+    except Exception as e:
+        print(f"[{tag}] trimesh audit failed: {e}", flush=True)
+        return False
+
 def native_watertight_count(faces: np.ndarray, threads: int, tag: str):
     """Exact native edge-degree check without Trimesh edge caches."""
     wt, bad_edges, wt_s, wt_bytes = core.is_watertight(
@@ -1070,14 +1104,20 @@ def main():
 
     # The exact checker already ran once on the final face array inside
     # direct_thin_mesh_owned, after the v6.21 FaithC finalizer.
-    watertight = bool(final_wt_known)
     bad_edges = int(final_bad_known)
+
+    trimesh_ok = trimesh_closed_audit(final_v, final_f, "WTiVo-Audit-Trimesh")
+
+    watertight = bool(final_wt_known) and trimesh_ok
 
     print("-------------------------------------------------------")
     print("  WTiVo FINAL WATERTIGHT RESULT")
     print("-------------------------------------------------------")
     print(f"[FINAL] v/f={len(final_v):,}/{len(final_f):,}")
-    print(f"[FINAL] watertight={watertight} | bad_edge_groups={bad_edges}")
+    print(
+        f"[FINAL] watertight={watertight} | bad_edge_groups={bad_edges} | "
+        f"native_edge_watertight={bool(final_wt_known)} | trimesh_closed={trimesh_ok}"
+    )
     mem_snapshot("FINAL arrays only / before output")
 
     if native_output:
