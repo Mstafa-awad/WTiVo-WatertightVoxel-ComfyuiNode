@@ -103,7 +103,7 @@ class WTiVoNativeMeshToMesh:
                 "final_res": (
                     "INT",
                     {
-                        "default": 1024,
+                        "default": 1536,
                         "min": 256,
                         "max": 8192,
                         "step": 128,
@@ -113,7 +113,7 @@ class WTiVoNativeMeshToMesh:
                     "INT",
                     {
                         "default": 12_000_000,
-                        "min": 100_000,
+                        "min": 0,
                         "max": 100_000_000,
                         "step": 1_000_000,
                     },
@@ -165,7 +165,7 @@ class WTiVoNativeMeshToMesh:
                 ),
                 "faithc_component_mode": (
                     ["auto", "keep_all", "largest"],
-                    {"default": "auto"},
+                    {"default": "keep_all"},
                 ),
             }
         }
