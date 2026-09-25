@@ -52,13 +52,13 @@ This edition features a **prebuilt in-process backend**, eliminating local C++/C
 | :--- | :--- | :---: | :--- |
 | `mesh` | **MESH** | — | Input ComfyUI native mesh object (e.g., from `VaeDecodeShapeTrellis`). |
 | `input_res` | **INT** | `1536` | Resolution for the initial thick UDF sparse field and graph-labeling pass. |
-| `final_res` | **INT** | `1024` | Resolution for the final signed OpenVDB field and FaithC reconstruction. |
+| `final_res` | **INT** | `1536` | Resolution for the final signed OpenVDB field and FaithC reconstruction. |
 | `proxy_points` | **INT** | `12000000` | QEF proxy point budget sent to CGAL for tetrahedralization. |
 | `proxy_eps_scale` | **FLOAT** | `1.0` | Inset scale for graph proxy geometry relative to resolution. |
 | `proxy_feature_weight` | **FLOAT** | `1.5` | Priority weight for preserving sharp corners, edges, and creases. |
 | `lambda_fill` | **FLOAT** | `20.0` | Regularization factor for tetrahedral cell-cut fill. |
 | `thin_iso_vox` | **FLOAT** | `0.0` | Surface offset in voxel units for the final signed field. |
-| `faithc_component_mode` | **ENUM** | `auto` | Component handling (`auto`, `keep_all`, `largest`). `auto` preserves raw mesh when watertight. |
+| `faithc_component_mode` | **ENUM** | `largest` | Component handling (`auto`, `keep_all`, `largest`). `largest` is the best option to make it watertight. |
 | `threads` | **INT** | *Max CPU* | Number of logical CPU threads allocated for parallel operations. |
 
 ---
