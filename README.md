@@ -1,10 +1,14 @@
 # WTiVo — WatertightVoxel (ComfyUI Node)
 
-A high-performance, in-process watertight remeshing node for **ComfyUI**. WTiVo converts defective, non-manifold, or open 3D triangle meshes (such as raw outputs from AI 3D generators like TRELLIS) into dense, closed, manifold meshes using sparse voxel fields, tetrahedral cell cuts, CUDA graph optimization, and manifold contouring.
+A high-performance, in-process watertight remeshing node for ComfyUI. WTiVo converts defective, non-manifold, or open 3D triangle meshes (such as raw outputs from AI 3D generators like TRELLIS) into dense, closed, manifold meshes using sparse voxel fields, tetrahedral cell cuts, CUDA graph optimization, and manifold contouring.
 
-This edition features a **prebuilt in-process backend**, eliminating local C++/CUDA compilation entirely.
+## 🎥 Watch the WTiVo Node in Action
 
-WTiVo can now also handle **2K-resolution meshes with a large amount of geometric detail** when the reconstruction resolution and proxy-point budget are increased appropriately.
+**Want to see how WTiVo works? Watch the full video explanation here:**
+
+[![WTiVo — WatertightVoxel ComfyUI Node](https://img.youtube.com/vi/QwILmqyjEow/maxresdefault.jpg)](https://www.youtube.com/watch?v=QwILmqyjEow&t=105s)
+
+▶️ **[Watch the video on YouTube](https://www.youtube.com/watch?v=QwILmqyjEow&t=105s)**
 
 ---
 
