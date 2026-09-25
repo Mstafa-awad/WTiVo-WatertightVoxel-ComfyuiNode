@@ -26,6 +26,32 @@ A high-performance, in-process watertight remeshing node for ComfyUI. WTiVo conv
 
 ---
 
+## 🖼️ Examples
+
+### 🔥 2K High-Detail Reconstruction
+
+WTiVo can reconstruct meshes at **2K resolution** while preserving significantly more surface detail. Increasing the proxy point count gives the reconstruction more geometry to work with, allowing fine details and complex shapes to be preserved.
+
+**2K Example 1**
+
+![WTiVo 2K Example](https://github.com/Mstafa-awad/WTiVo-WatertightVoxel-ComfyuiNode/blob/main/Doc/2K.png)
+
+**2K Example 2**
+
+![WTiVo 2K High-Detail Example](https://github.com/Mstafa-awad/WTiVo-WatertightVoxel-ComfyuiNode/blob/main/Doc/2k-1.png)
+
+> **Recommended for 2K:** `input_res = 2048`, `final_res = 2048`, and around `25,000,000` proxy points. Higher proxy point counts can preserve more detail, but require additional VRAM and processing time.
+
+---
+
+### 💧 Watertight Reconstruction
+
+WTiVo rebuilds the mesh topology to produce a **closed, manifold, watertight surface**, making the resulting mesh suitable for downstream processing such as decimation, UV unwrapping, baking, rigging, and game-ready asset workflows.
+
+![WTiVo Watertight Example](https://github.com/Mstafa-awad/WTiVo-WatertightVoxel-ComfyuiNode/blob/main/Doc/watertight.png)
+
+---
+
 ## 🚀 New: 2K High-Detail Mesh Support
 
 WTiVo is no longer limited to the previous 1536-resolution / 12-million-proxy-point workflow.
